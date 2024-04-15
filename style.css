@@ -1,0 +1,29 @@
+th{
+    columns: auto;
+    border: solid 1px black;
+    justify-content: center;
+    align-items: center;
+    /* display: inline-table; */
+    
+}
+p{
+    
+    display: inline-block;
+    border: solid 1px black;
+    width: auto;
+    
+}
+tr{
+    height: auto;
+    justify-content: center;
+}
+table{
+    height: auto;
+}
+img{
+    display: grid;
+    
+}
+form{
+    
+}

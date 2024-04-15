@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>geoloc</title>
+</head>
+<br onload="quelBrowser()">
+    <h1>coordonnees geographique</h1>
+    <p>Votre navigateur : <span id="browser"></span></p>
+    <p>Est-ce-que la Géolocalisation est supportée ? <span id="geo"></span></p>
+    <button onclick="detecterGeoLoc();">Tester</button>
+    <table>
+        <tr>
+            <th><p><img src="img/drapeau-belgique-vecteur_671352-40.avif" alt="">belgique bruxelles</p> 50° 50′ 48″ N, 4° 21′ 09″ E</th>
+            <th><p><img src="img/illustration-du-drapeau-france_53876-27099.avif" alt="">france paris tour eiffel</p> 48° 51' 30.132" N 2° 17' 40.132" E</th>
+            <th><p><img src="img/usa.jpeg" alt="">usa/canada chutes du niagara</p> 43° 5' 46.371" N 79° 2' 15.86" W</th>
+            <th><p><img src="img/inde.jpg" alt="">inde taj mahal</p> 27° 10' 30.054" N 78° 2' 31.758" E</th>
+            <th><p><img src="img/perou.jpg" alt="">perou machu picchu</p> 13° 9′ 47″ S 72° 32′ 44″ W</th>
+        </tr>
+    </table>
+    <h2><p id="p0"></p></h2>
+ 
+    <h1>position actuel</h1>
+<p>Cliquer pour savoir votre position.</p>
+
+<button onclick="getLocation()">cliquer</button>
+
+<p id="demo"></p>
+
+<h1>Entrer des coordonnées GPS</h1>
+    <label for="latitude">Latitude:</label>
+    <input type="text" id="latitude">
+    <label for="longitude">Longitude:</label>
+    <input type="text" id="longitude">
+    <button onclick="entrerCoordonnees()">Valider</button>
+<br></br>
+
+    <form>
+        <input type = "button" onclick = "getLocationUpdate();" value = "Watch Update"/>
+     </form>
+
+
+
+     
+  
+    <button onclick="getPosition()"> 
+        Watch 
+    </button> 
+      
+    <p id="watch"></p> 
+  
+    <button onclick="clearPosition()"> 
+        Clear Position 
+    </button> 
+<script>
+ function detecterGeoLoc() {
+        if (navigator.geolocation) {
+        // true – Le navigateur supporte 
+        document.getElementById("geo").innerHTML = "<strong>OUI</strong>, votre navigateur peut géolocaliser";
+        }
+        else {
+        // false – Le navigateur ne supporte pas
+        document.getElementById("geo").innerHTML = "<strong>NON</strong>, désolé, utilisez un autre !"; 
+        }
+    }
+
+    function quelBrowser() {
+        document.getElementById("browser").innerHTML = navigator.userAgent;
+    }
+
+    document.getElementById('p0').innerHTML =
+    'Langue du navigateur : ' + navigator.language  +
+    '<br>Cookies autorisés : ' + navigator.cookieEnabled +
+    '<br>Plateforme utilisée : ' + navigator.platform; 
+
+    const x = document.getElementById("demo");
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else { 
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+
+function showPosition(position) {
+  x.innerHTML = "Latitude: " + position.coords.latitude + 
+  "<br>Longitude: " + position.coords.longitude;
+}
+
+function entrerCoordonnees() {
+            let latitude = document.getElementById("latitude").value;
+            let longitude = document.getElementById("longitude").value;
+            
+            // Afficher les coordonnées GPS
+            console.log(`Coordonnées GPS: Latitude ${latitude}, Longitude ${longitude}`);
+            
+            // Vous pouvez ajouter d'autres opérations ici en fonction de vos besoins
+        }
+
+
+
+        var watchID;
+         var geoLoc;
+         
+         function showLocation(position) {
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+            alert("Latitude : " + latitude + " Longitude: " + longitude);
+         }
+         
+         function errorHandler(err) {
+            if(err.code == 1) {
+               alert("Error: Access is denied!");
+            } else if( err.code == 2) {
+               alert("Error: Position is unavailable!");
+            }
+         }
+         
+         function getLocationUpdate(){
+            
+            if(navigator.geolocation){
+               
+               // timeout at 60000 milliseconds (60 seconds)
+               var options = {timeout:60000};
+               geoLoc = navigator.geolocation;
+               watchID = geoLoc.watchPosition(showLocation, errorHandler, options);
+            } else {
+               alert("Sorry, browser does not support geolocation!");
+            }
+         }        
+
+
+        var clearId; 
+        var demoPara = document.getElementById("watch"); 
+        var user_loc = navigator.geolocation; 
+  
+        function getPosition() { 
+            if (user_loc) { 
+                var option = { timeout: 50000 } 
+                clearId = user_loc.watchPosition( 
+                    currentLoc, resolveError, option); 
+            } 
+            else { 
+                "Your browser doesn't support Geolocation API."; 
+            } 
+        } 
+  
+        function currentLoc(loc) { 
+            var lat = loc.coords.latitude; 
+            var long = loc.coords.longitude; 
+            demoPara.innerHTML = "Latitude: "  
+                + lat + "<br>Longitude: " + long; 
+        } 
+  
+        function resolveError(err) { 
+            demoPara.innerHTML = "ERROR"  
+                + err.code + ": " + err.message; 
+        } 
+  
+        function clearPosition() { 
+            demoPara.innerHTML = user_loc.clearWatch(clearId); 
+        } 
+</script>
+</body>
+</html>
